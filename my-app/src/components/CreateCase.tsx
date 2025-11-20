@@ -1,14 +1,19 @@
+import { format } from "date-fns";
+import {
+  ArrowLeft,
+  Calendar as CalendarIcon,
+  Folder,
+  Save,
+  X,
+} from "lucide-react";
+import { useState } from "react";
 import { Button } from "./ui/button";
+import { Calendar } from "./ui/calendar";
+import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { Card } from "./ui/card";
-import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { ArrowLeft, Calendar as CalendarIcon, Save, X } from "lucide-react";
-import { useState } from "react";
-import { format } from "date-fns";
-import { Folder } from "lucide-react";
+import { Textarea } from "./ui/textarea";
 
 interface CreateCaseProps {
   onBack: () => void;
@@ -21,8 +26,11 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
   const [evidence, setEvidence] = useState("");
   const [demandLetter, setDemandLetter] = useState("");
   const [dateType, setDateType] = useState<"single" | "range">("single");
-  const [singleDate, setSingleDate] = useState<Date>();
-  const [dateRange, setDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({
+  const [singleDate] = useState<Date>();
+  const [dateRange] = useState<{
+    from: Date | undefined;
+    to: Date | undefined;
+  }>({
     from: undefined,
     to: undefined,
   });
@@ -100,7 +108,7 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
                 <Label className="text-zinc-200">
                   Date of Event <span className="text-red-500">*</span>
                 </Label>
-                
+
                 {/* Date Type Selector */}
                 <div className="flex gap-3 mb-3">
                   <Button
@@ -146,11 +154,11 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 bg-zinc-900 border-zinc-800">
                       <Calendar
-                        mode="single"
-                        selected={singleDate}
-                        onSelect={setSingleDate}
-                        disabled={(date) => date > new Date()}
-                        initialFocus
+                      // mode="single"
+                      // selected={singleDate}
+                      // onSelect={setSingleDate}
+                      // disabled={(date) => date > new Date()}
+                      // initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -182,17 +190,17 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 bg-zinc-900 border-zinc-800">
                       <Calendar
-                        mode="range"
-                        selected={dateRange}
-                        onSelect={(range) =>
-                          setDateRange({
-                            from: range?.from,
-                            to: range?.to,
-                          })
-                        }
-                        disabled={(date) => date > new Date()}
-                        numberOfMonths={2}
-                        initialFocus
+                      // mode="range"
+                      // selected={dateRange}
+                      // onSelect={(range) =>
+                      //   setDateRange({
+                      //     from: range?.from,
+                      //     to: range?.to,
+                      //   })
+                      // }
+                      // disabled={(date) => date > new Date()}
+                      // numberOfMonths={2}
+                      // initialFocus
                       />
                     </PopoverContent>
                   </Popover>

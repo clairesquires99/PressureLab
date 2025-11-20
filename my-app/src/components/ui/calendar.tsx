@@ -2,7 +2,7 @@
 
 // import { DayPicker } from "react-day-picker";
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+function Calendar() {
   return (
     <text>Not Implemented</text>
     // <DayPicker
