@@ -1,8 +1,18 @@
-import { Button } from "./ui/button";
-import { Card } from "./ui/card";
-import { ArrowLeft, Folder, ChevronDown, ChevronUp, AlertTriangle, Scale, FileText, Download, Share2 } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  ChevronDown,
+  ChevronUp,
+  Download,
+  FileText,
+  Folder,
+  Scale,
+  Share2,
+} from "lucide-react";
 import { useState } from "react";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 
 interface ResultsPageProps {
   onBack: () => void;
@@ -28,7 +38,8 @@ const mockCounterArguments: CounterArgument[] = [
       "Multiple intervening factors could have contributed to the outcome",
       "Temporal gap between alleged negligence and actual harm",
     ],
-    detailedAnalysis: "The plaintiff's case fails to establish a clear causal link between the defendant's alleged breach and the damages claimed. The evidence presented shows several independent variables that could have contributed to or caused the plaintiff's injuries. The timing of events suggests that intervening circumstances may have been the primary factor in the outcome, thereby breaking the chain of causation necessary for liability.",
+    detailedAnalysis:
+      "The plaintiff's case fails to establish a clear causal link between the defendant's alleged breach and the damages claimed. The evidence presented shows several independent variables that could have contributed to or caused the plaintiff's injuries. The timing of events suggests that intervening circumstances may have been the primary factor in the outcome, thereby breaking the chain of causation necessary for liability.",
     legalPrecedents: [
       "Palsgraf v. Long Island Railroad Co. (1928) - Proximate cause requirements",
       "Mitchell v. Gonzales (1991) - Intervening causation analysis",
@@ -49,7 +60,8 @@ const mockCounterArguments: CounterArgument[] = [
       "Evidence suggests plaintiff was aware of potential risks",
       "Plaintiff's actions directly contributed to the incident",
     ],
-    detailedAnalysis: "The evidence strongly suggests that the plaintiff's own negligent behavior was a substantial contributing factor to the incident. Documentation shows the plaintiff was provided with safety warnings and proper instructions but chose to disregard them. Under comparative negligence principles, the plaintiff's damages should be reduced proportionally to their degree of fault, which appears to be significant in this case.",
+    detailedAnalysis:
+      "The evidence strongly suggests that the plaintiff's own negligent behavior was a substantial contributing factor to the incident. Documentation shows the plaintiff was provided with safety warnings and proper instructions but chose to disregard them. Under comparative negligence principles, the plaintiff's damages should be reduced proportionally to their degree of fault, which appears to be significant in this case.",
     legalPrecedents: [
       "Butterfield v. Forrester (1809) - Contributory negligence foundation",
       "Li v. Yellow Cab Co. (1975) - Comparative negligence standard",
@@ -70,7 +82,8 @@ const mockCounterArguments: CounterArgument[] = [
       "Discovery rule application is questionable",
       "No valid tolling circumstances present",
     ],
-    detailedAnalysis: "A careful examination of the timeline reveals that the plaintiff's claim may be barred by the applicable statute of limitations. While the plaintiff argues the discovery rule should apply, the facts suggest they knew or should have known of the injury and its cause well before they claim. There are no circumstances present that would justify tolling the statute, such as fraud, concealment, or plaintiff's incapacity.",
+    detailedAnalysis:
+      "A careful examination of the timeline reveals that the plaintiff's claim may be barred by the applicable statute of limitations. While the plaintiff argues the discovery rule should apply, the facts suggest they knew or should have known of the injury and its cause well before they claim. There are no circumstances present that would justify tolling the statute, such as fraud, concealment, or plaintiff's incapacity.",
     legalPrecedents: [
       "Wilson v. Garcia (1985) - Statute of limitations application",
       "Klehr v. A.O. Smith Corp. (1997) - Discovery rule standards",
@@ -91,7 +104,8 @@ const mockCounterArguments: CounterArgument[] = [
       "Unnecessary delay in seeking appropriate remedies",
       "Plaintiff's choices amplified the extent of damages",
     ],
-    detailedAnalysis: "The duty to mitigate damages is a fundamental principle in tort law, and the plaintiff appears to have violated this duty. Evidence indicates the plaintiff was offered reasonable alternatives to minimize harm but declined them without valid justification. Additionally, the plaintiff delayed seeking treatment or remedy for an unreasonable period, which likely exacerbated the damages now being claimed. This failure to act reasonably should reduce or eliminate certain categories of damages.",
+    detailedAnalysis:
+      "The duty to mitigate damages is a fundamental principle in tort law, and the plaintiff appears to have violated this duty. Evidence indicates the plaintiff was offered reasonable alternatives to minimize harm but declined them without valid justification. Additionally, the plaintiff delayed seeking treatment or remedy for an unreasonable period, which likely exacerbated the damages now being claimed. This failure to act reasonably should reduce or eliminate certain categories of damages.",
     legalPrecedents: [
       "Parker v. Twentieth Century-Fox (1970) - Duty to mitigate",
       "Rockingham County v. Luten Bridge Co. (1929) - Mitigation requirement",
@@ -112,7 +126,8 @@ const mockCounterArguments: CounterArgument[] = [
       "Express or implied waiver may be applicable",
       "Risk was inherent to the activity undertaken",
     ],
-    detailedAnalysis: "The plaintiff knowingly and voluntarily exposed themselves to a known danger by participating in the activity that led to their injury. Documentation, including signed agreements or circumstantial evidence of the plaintiff's awareness, supports the argument that they assumed the risk. While this defense has limitations and varies by jurisdiction, it could potentially bar recovery or significantly reduce damages if the risk was obvious and inherent to the activity.",
+    detailedAnalysis:
+      "The plaintiff knowingly and voluntarily exposed themselves to a known danger by participating in the activity that led to their injury. Documentation, including signed agreements or circumstantial evidence of the plaintiff's awareness, supports the argument that they assumed the risk. While this defense has limitations and varies by jurisdiction, it could potentially bar recovery or significantly reduce damages if the risk was obvious and inherent to the activity.",
     legalPrecedents: [
       "Murphy v. Steeplechase Amusement Co. (1929) - Assumption of risk",
       "Knight v. Jewett (1992) - Primary vs. secondary assumption",
@@ -187,11 +202,19 @@ export function ResultsPage({ onBack }: ResultsPageProps) {
               </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700">
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700"
+              >
                 <Download className="mr-2 h-4 w-4" />
                 Export
               </Button>
-              <Button variant="outline" size="sm" className="bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700">
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700"
+              >
                 <Share2 className="mr-2 h-4 w-4" />
                 Share
               </Button>
@@ -206,8 +229,10 @@ export function ResultsPage({ onBack }: ResultsPageProps) {
             <div>
               <p className="text-blue-100 mb-1">Analysis Complete</p>
               <p className="text-blue-200/70">
-                The following counter-arguments have been ranked by strength and applicability to the plaintiff's case. 
-                Expand each argument to view detailed analysis, legal precedents, and strategic recommendations.
+                The following counter-arguments have been ranked by strength and
+                applicability to the plaintiff's case. Expand each argument to
+                view detailed analysis, legal precedents, and strategic
+                recommendations.
               </p>
             </div>
           </div>
@@ -235,11 +260,14 @@ export function ResultsPage({ onBack }: ResultsPageProps) {
                           {argument.strength} Strength
                         </Badge>
                       </div>
-                      
+
                       {/* Key Points */}
                       <ul className="space-y-2 mt-3">
                         {argument.keyPoints.map((point, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-zinc-400">
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 text-zinc-400"
+                          >
                             <span className="text-blue-400 mt-1">•</span>
                             <span>{point}</span>
                           </li>
@@ -290,7 +318,10 @@ export function ResultsPage({ onBack }: ResultsPageProps) {
                       </h4>
                       <ul className="space-y-2">
                         {argument.legalPrecedents.map((precedent, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-zinc-400">
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 text-zinc-400"
+                          >
                             <span className="text-blue-400 mt-1">•</span>
                             <span>{precedent}</span>
                           </li>
@@ -306,7 +337,10 @@ export function ResultsPage({ onBack }: ResultsPageProps) {
                       </h4>
                       <ul className="space-y-2">
                         {argument.recommendations.map((rec, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-zinc-400">
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 text-zinc-400"
+                          >
                             <span className="text-blue-400 mt-1">•</span>
                             <span>{rec}</span>
                           </li>
@@ -325,13 +359,17 @@ export function ResultsPage({ onBack }: ResultsPageProps) {
           <div className="text-center">
             <h3 className="text-zinc-100 mb-2">Need Further Analysis?</h3>
             <p className="text-zinc-400 mb-4">
-              Generate additional counter-arguments or request a detailed legal brief
+              Generate additional counter-arguments or request a detailed legal
+              brief
             </p>
             <div className="flex justify-center gap-3">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 Generate More Arguments
               </Button>
-              <Button variant="outline" className="bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700">
+              <Button
+                variant="outline"
+                className="bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700"
+              >
                 Request Legal Brief
               </Button>
             </div>
