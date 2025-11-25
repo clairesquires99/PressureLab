@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { Datepicker, useThemeMode } from "flowbite-react";
 import {
   ArrowLeft,
   Calendar as CalendarIcon,
@@ -6,9 +7,8 @@ import {
   Save,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { Calendar } from "./ui/calendar";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -26,14 +26,20 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
   const [evidence, setEvidence] = useState("");
   const [demandLetter, setDemandLetter] = useState("");
   const [dateType, setDateType] = useState<"single" | "range">("single");
-  const [singleDate] = useState<Date>();
-  const [dateRange] = useState<{
+  const [singleDate, setSingleDate] = useState<Date>();
+  const [dateRange, setDateRange] = useState<{
     from: Date | undefined;
     to: Date | undefined;
   }>({
     from: undefined,
     to: undefined,
   });
+
+  const { setMode } = useThemeMode();
+
+  useEffect(() => {
+    setMode("dark");
+  }, [setMode]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,12 +159,9 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 bg-zinc-900 border-zinc-800">
-                      <Calendar
-                      // mode="single"
-                      // selected={singleDate}
-                      // onSelect={setSingleDate}
-                      // disabled={(date) => date > new Date()}
-                      // initialFocus
+                      <Datepicker
+                        value={singleDate || undefined}
+                        onChange={(date) => setSingleDate(date || undefined)}
                       />
                     </PopoverContent>
                   </Popover>
@@ -166,44 +169,67 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
 
                 {/* Date Range Picker */}
                 {dateType === "range" && (
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="w-full justify-start bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700 hover:text-zinc-100"
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {dateRange.from ? (
-                          dateRange.to ? (
-                            <>
-                              {format(dateRange.from, "LLL dd, y")} -{" "}
-                              {format(dateRange.to, "LLL dd, y")}
-                            </>
-                          ) : (
-                            format(dateRange.from, "LLL dd, y")
-                          )
-                        ) : (
-                          "Pick a date range"
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 bg-zinc-900 border-zinc-800">
-                      <Calendar
-                      // mode="range"
-                      // selected={dateRange}
-                      // onSelect={(range) =>
-                      //   setDateRange({
-                      //     from: range?.from,
-                      //     to: range?.to,
-                      //   })
-                      // }
-                      // disabled={(date) => date > new Date()}
-                      // numberOfMonths={2}
-                      // initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <div className="space-y-3">
+                    <div className="space-y-2">
+                      <Label className="text-zinc-300 text-sm">From Date</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="w-full justify-start bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700 hover:text-zinc-100"
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {dateRange.from
+                              ? format(dateRange.from, "LLL dd, y")
+                              : "Pick a date"}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0 bg-zinc-900 border-zinc-800">
+                          <Datepicker
+                            value={dateRange.from || undefined}
+                            onChange={(date) =>
+                              setDateRange({
+                                ...dateRange,
+                                from: date || undefined,
+                              })
+                            }
+                            maxDate={dateRange.to || new Date()}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-zinc-300 text-sm">To Date</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="w-full justify-start bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700 hover:text-zinc-100"
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {dateRange.to
+                              ? format(dateRange.to, "LLL dd, y")
+                              : "Pick a date"}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0 bg-zinc-900 border-zinc-800">
+                          <Datepicker
+                            value={dateRange.to || undefined}
+                            onChange={(date) =>
+                              setDateRange({
+                                ...dateRange,
+                                to: date || undefined,
+                              })
+                            }
+                            minDate={dateRange.from || undefined}
+                            maxDate={new Date()}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
                 )}
               </div>
 

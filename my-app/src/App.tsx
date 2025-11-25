@@ -2,6 +2,7 @@ import { Folder, Plus, Search, Settings, User } from "lucide-react";
 import { useState } from "react";
 import { CaseListItem } from "./components/CaseListItem";
 import { CreateCase } from "./components/CreateCase";
+import { Playground } from "./components/Playground";
 import { ResultsPage } from "./components/ResultsPage";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
@@ -25,9 +26,9 @@ const mockCases: Case[] = [
 ];
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<"home" | "create" | "results">(
-    "home"
-  );
+  const [currentPage, setCurrentPage] = useState<
+    "home" | "create" | "results" | "playground"
+  >("home");
 
   if (currentPage === "create") {
     return (
@@ -40,6 +41,10 @@ export default function App() {
 
   if (currentPage === "results") {
     return <ResultsPage onBack={() => setCurrentPage("home")} />;
+  }
+
+  if (currentPage === "playground") {
+    return <Playground />;
   }
 
   return (
@@ -73,6 +78,12 @@ export default function App() {
                   className="text-zinc-400 hover:text-zinc-100 transition-colors"
                 >
                   Analytics
+                </a>
+                <a
+                  onClick={() => setCurrentPage("playground")}
+                  className="text-zinc-400 hover:text-zinc-100 transition-colors"
+                >
+                  Playground
                 </a>
               </div>
             </div>
