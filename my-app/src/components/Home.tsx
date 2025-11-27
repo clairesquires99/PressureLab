@@ -12,7 +12,7 @@ export const Home = ({
     SetStateAction<"home" | "create" | "results" | "playground">
   >;
 }) => {
-  const { cases, loading, error } = useCaseList();
+  const { cases, loading, error, refetch } = useCaseList();
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -127,7 +127,7 @@ export const Home = ({
 
         {/* Cases List */}
         {!loading && !error && cases.length > 0 && (
-          <CaseList cases={cases} />
+          <CaseList cases={cases} onCaseDeleted={refetch} />
         )}
 
         {/* Empty State - Hidden when cases exist */}

@@ -18,12 +18,22 @@ export interface Case {
 //   { id: "8", name: "Steam System Audit", date: "2025-10-18" },
 // ];
 
-export const CaseList = ({ cases }: { cases: Case[] }) => {
+export const CaseList = ({
+  cases,
+  onCaseDeleted,
+}: {
+  cases: Case[];
+  onCaseDeleted?: () => void;
+}) => {
   return (
     <Card className="bg-zinc-900 border-zinc-800">
       <div className="divide-y divide-zinc-800">
         {cases.map((caseItem) => (
-          <CaseListItem key={caseItem.id} caseData={caseItem} />
+          <CaseListItem
+            key={caseItem.id}
+            caseData={caseItem}
+            onDelete={onCaseDeleted}
+          />
         ))}
       </div>
     </Card>

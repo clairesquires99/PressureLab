@@ -12,22 +12,22 @@ export function useCaseList() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchCases() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await getAllCases();
-        setCases(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setLoading(false);
-      }
+  const fetchCases = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await getAllCases();
+      setCases(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchCases();
   }, []);
 
-  return { cases, loading, error };
+  return { cases, loading, error, refetch: fetchCases };
 }
