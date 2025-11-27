@@ -8,6 +8,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useCreateCase } from "../hooks/useCreateCase";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
@@ -36,24 +37,54 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
   });
 
   const { setMode } = useThemeMode();
+  const { createCase, loading, error } = useCreateCase();
 
   useEffect(() => {
     setMode("dark");
   }, [setMode]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const buildCaseBackground = (): string => {
+    const sections: string[] = [];
+
+    // Add date section
+    if (dateType === "single" && singleDate) {
+      sections.push(`Date of Event: ${format(singleDate, "PPP")}`);
+    } else if (dateType === "range" && dateRange.from && dateRange.to) {
+      sections.push(
+        `Date Range: ${format(dateRange.from, "LLL dd, y")} - ${format(dateRange.to, "LLL dd, y")}`
+      );
+    }
+
+    // Add evidence section
+    if (evidence.trim()) {
+      sections.push(`Evidence:\n${evidence}`);
+    }
+
+    // Add demand letter section
+    if (demandLetter.trim()) {
+      sections.push(`Demand Letter:\n${demandLetter}`);
+    }
+
+    return sections.join("\n\n");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({
-      caseName,
-      argument,
-      evidence,
-      demandLetter,
-      dateType,
-      singleDate,
-      dateRange,
-    });
-    onSubmit();
+
+    try {
+      const caseBackground = buildCaseBackground();
+      const initialArguments = argument.trim() ? [argument.trim()] : [];
+
+      await createCase({
+        title: caseName,
+        case_background: caseBackground,
+        initial_arguments: initialArguments,
+      });
+
+      onSubmit();
+    } catch (err) {
+      console.error("Failed to create case:", err);
+    }
   };
 
   return (
@@ -277,12 +308,20 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
             </div>
           </Card>
 
+          {/* Error Message */}
+          {error && (
+            <div className="mt-4 p-4 bg-red-900/20 border border-red-800 rounded-lg text-red-400">
+              {error}
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="mt-6 flex justify-end gap-3">
             <Button
               type="button"
               variant="outline"
               onClick={onBack}
+              disabled={loading}
               className="bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700 hover:text-zinc-100"
             >
               <X className="mr-2 h-4 w-4" />
@@ -290,10 +329,11 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
             </Button>
             <Button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              disabled={loading}
+              className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="mr-2 h-4 w-4" />
-              Create Case
+              {loading ? "Creating..." : "Create Case"}
             </Button>
           </div>
         </form>
