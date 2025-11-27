@@ -1,11 +1,11 @@
-import { Folder, Clock, MoreVertical, ChevronRight } from "lucide-react";
-import { Button } from "./ui/button";
+import { ChevronRight, Folder, MoreVertical } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface CaseListItemProps {
   caseData: {
-    id: string;
-    name: string;
-    date: string;
+    id: number;
+    title: string;
+    case_background: string;
   };
 }
 
@@ -19,7 +19,7 @@ export function CaseListItem({ caseData }: CaseListItemProps) {
     if (diffDays === 0) return "Today";
     if (diffDays === 1) return "Yesterday";
     if (diffDays < 7) return `${diffDays} days ago`;
-    
+
     return date.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
@@ -32,14 +32,12 @@ export function CaseListItem({ caseData }: CaseListItemProps) {
       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800 group-hover:bg-zinc-700 transition-colors">
         <Folder className="h-5 w-5 text-blue-400" />
       </div>
-      
+
       <div className="flex-1 min-w-0">
-        <h3 className="text-zinc-100 truncate">
-          {caseData.name}
-        </h3>
+        <h3 className="text-zinc-100 truncate">{caseData.title}</h3>
         <div className="flex items-center gap-2 text-zinc-400">
-          <Clock className="h-3.5 w-3.5" />
-          <span>{formatDate(caseData.date)}</span>
+          {/* <Clock className="h-3.5 w-3.5" /> */}
+          {/* <span>{formatDate(caseData.date)}</span> */}
         </div>
       </div>
 
