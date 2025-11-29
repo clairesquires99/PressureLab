@@ -10,13 +10,10 @@ import {
   Share2,
 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-
-interface ResultsPageProps {
-  onBack: () => void;
-}
 
 interface CounterArgument {
   id: string;
@@ -141,7 +138,9 @@ const mockCounterArguments: CounterArgument[] = [
   },
 ];
 
-export function ResultsPage({ onBack }: ResultsPageProps) {
+export function ResultsPage() {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const toggleExpand = (id: string) => {
@@ -183,7 +182,7 @@ export function ResultsPage({ onBack }: ResultsPageProps) {
         <div className="mb-8">
           <Button
             variant="ghost"
-            onClick={onBack}
+            onClick={() => navigate("/")}
             className="mb-4 -ml-3 text-zinc-400 hover:text-zinc-100"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />

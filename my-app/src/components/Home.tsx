@@ -1,6 +1,6 @@
 import { Folder, Plus, Scale, Search, Settings, Shield, User } from "lucide-react";
-import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -13,13 +13,8 @@ import { Input } from "./ui/input";
 import { useCaseList } from "../hooks/useCaseList";
 import { CaseList } from "./CaseList/CaseList";
 
-export const Home = ({
-  setCurrentPage,
-}: {
-  setCurrentPage: Dispatch<
-    SetStateAction<"home" | "create" | "results" | "playground">
-  >;
-}) => {
+export const Home = () => {
+  const navigate = useNavigate();
   const { cases, loading, error, refetch } = useCaseList();
   const [showCaseTypeModal, setShowCaseTypeModal] = useState(false);
 
@@ -30,7 +25,7 @@ export const Home = ({
   const handleCaseTypeSelection = (type: "defense" | "prosecution") => {
     if (type === "defense") {
       setShowCaseTypeModal(false);
-      setCurrentPage("create");
+      navigate("/cases/create");
     }
     // Prosecution is disabled, so do nothing
   };
@@ -100,8 +95,8 @@ export const Home = ({
                   Analytics
                 </a>
                 <a
-                  onClick={() => setCurrentPage("playground")}
-                  className="text-zinc-400 hover:text-zinc-100 transition-colors"
+                  onClick={() => navigate("/playground")}
+                  className="text-zinc-400 hover:text-zinc-100 transition-colors cursor-pointer"
                 >
                   Playground
                 </a>

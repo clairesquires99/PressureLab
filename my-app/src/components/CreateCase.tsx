@@ -8,6 +8,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCreateCase } from "../hooks/useCreateCase";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
@@ -16,12 +17,8 @@ import { Label } from "./ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
 
-interface CreateCaseProps {
-  onBack: () => void;
-  onSubmit: () => void;
-}
-
-export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
+export function CreateCase() {
+  const navigate = useNavigate();
   const [caseName, setCaseName] = useState("");
   const [argument, setArgument] = useState("");
   const [evidence, setEvidence] = useState("");
@@ -75,13 +72,18 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
       const caseBackground = buildCaseBackground();
       const initialArguments = argument.trim() ? [argument.trim()] : [];
 
-      await createCase({
+      const result = await createCase({
         title: caseName,
         case_background: caseBackground,
         initial_arguments: initialArguments,
       });
 
-      onSubmit();
+      // Navigate to results page with the case ID
+      if (result?.trial_id) {
+        navigate(`/cases/${result.trial_id}/results`);
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.error("Failed to create case:", err);
     }
@@ -109,7 +111,7 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
         <div className="mb-8">
           <Button
             variant="ghost"
-            onClick={onBack}
+            onClick={() => navigate("/")}
             className="mb-4 -ml-3 text-zinc-400 hover:text-zinc-100"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -320,7 +322,7 @@ export function CreateCase({ onBack, onSubmit }: CreateCaseProps) {
             <Button
               type="button"
               variant="outline"
-              onClick={onBack}
+              onClick={() => navigate("/")}
               disabled={loading}
               className="bg-zinc-800 border-zinc-700 text-zinc-100 hover:bg-zinc-700 hover:text-zinc-100"
             >
