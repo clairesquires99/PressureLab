@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAllCases } from "../api/getAllCases";
+import { useAuthContext } from "../contexts/AuthContext";
 
 interface Case {
   id: number;
@@ -7,7 +8,10 @@ interface Case {
   case_background: string;
 }
 
+const AUTH_ENABLED = import.meta.env.VITE_AUTH_ENABLED === "true";
+
 export function useCaseList() {
+  const { getToken, userId } = useAuthContext();
   const [cases, setCases] = useState<Case[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,7 +20,19 @@ export function useCaseList() {
     try {
       setLoading(true);
       setError(null);
-      const data = await getAllCases();
+
+      // Build auth headers
+      const headers: HeadersInit = {};
+      if (AUTH_ENABLED) {
+        const token = await getToken();
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
+      } else if (userId) {
+        headers["X-User-Id"] = userId;
+      }
+
+      const data = await getAllCases(headers);
       setCases(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");

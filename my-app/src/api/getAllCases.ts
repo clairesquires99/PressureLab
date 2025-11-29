@@ -6,11 +6,12 @@ interface Case {
   case_background: string;
 }
 
-export async function getAllCases(): Promise<Case[]> {
+export async function getAllCases(headers: HeadersInit = {}): Promise<Case[]> {
   const response = await fetch(`${API_URL}/trials/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      ...headers,
     },
   });
 

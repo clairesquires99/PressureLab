@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createNewCase } from "../api/createNewCase";
+import { useAuthContext } from "../contexts/AuthContext";
 
 interface CreateCaseParams {
   title: string;
@@ -15,7 +16,10 @@ interface CreateCaseResult {
   threads_generated: number;
 }
 
+const AUTH_ENABLED = import.meta.env.VITE_AUTH_ENABLED === "true";
+
 export function useCreateCase() {
+  const { getToken, userId } = useAuthContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CreateCaseResult | null>(null);
@@ -24,7 +28,19 @@ export function useCreateCase() {
     try {
       setLoading(true);
       setError(null);
-      const data = await createNewCase(params);
+
+      // Build auth headers
+      const headers: HeadersInit = {};
+      if (AUTH_ENABLED) {
+        const token = await getToken();
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
+      } else if (userId) {
+        headers["X-User-Id"] = userId;
+      }
+
+      const data = await createNewCase(params, headers);
       setResult(data);
       return data;
     } catch (err) {

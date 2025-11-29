@@ -4,11 +4,15 @@ interface DeleteCaseResponse {
   status: string;
 }
 
-export async function deleteCase(trialId: number): Promise<DeleteCaseResponse> {
+export async function deleteCase(
+  trialId: number,
+  headers: HeadersInit = {}
+): Promise<DeleteCaseResponse> {
   const response = await fetch(`${API_URL}/trials/${trialId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      ...headers,
     },
   });
 

@@ -15,7 +15,8 @@ interface CreateCaseResponse {
 }
 
 export async function createNewCase(
-  request: CreateCaseRequest
+  request: CreateCaseRequest,
+  headers: HeadersInit = {}
 ): Promise<CreateCaseResponse> {
   const formData = new FormData();
 
@@ -31,6 +32,7 @@ export async function createNewCase(
 
   const response = await fetch(`${API_URL}/trials/`, {
     method: "POST",
+    headers: headers,
     body: formData,
   });
 

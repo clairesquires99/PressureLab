@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/clerk-react";
 import { Folder, Plus, Scale, Search, Settings, Shield, User } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +13,8 @@ import {
 import { Input } from "./ui/input";
 import { useCaseList } from "../hooks/useCaseList";
 import { CaseList } from "./CaseList/CaseList";
+
+const AUTH_ENABLED = import.meta.env.VITE_AUTH_ENABLED === "true";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -117,13 +120,23 @@ export const Home = () => {
               >
                 <Settings className="h-5 w-5" />
               </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-zinc-400 hover:text-zinc-100"
-              >
-                <User className="h-5 w-5" />
-              </Button>
+              {AUTH_ENABLED ? (
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "h-8 w-8",
+                    },
+                  }}
+                />
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-zinc-400 hover:text-zinc-100"
+                >
+                  <User className="h-5 w-5" />
+                </Button>
+              )}
             </div>
           </div>
         </div>
